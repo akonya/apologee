@@ -43,3 +43,20 @@ Submit an appology
 * returns `{"status": 3}` if authentication successfull & appology sent & mutual
 * returns `{"status": 0}` unknown failure
 
+---
+
+####/API/accepted
+Get list of people who accepted appologies
+
+* consumes GET data for `token`
+* returns list of people who accepted appologies
+* returns `{"status": 1}` if authentication successfull
+* returns `{"status": 2}` if authentication fail
+* returns `{"status": 0}` unknown failure
+
+EXAMPLE:
+
+`[{"acceptedby": "obama"}, {"status": 1}]`
+
+---
+

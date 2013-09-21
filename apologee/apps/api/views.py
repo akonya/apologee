@@ -121,7 +121,39 @@ def sorry(request):
                mimetype='application/javascript')
 
         
-
+@jsonp
+def accepted(request):
+    #return list of accepted appologies
+    resp = []
+    status = 0
+    if request.method == 'GET':
+        token = request.GET['token']
+        #get user profile corrisponding to token 
+        up_list = UserProfile.objects.filter(token = token)
+        #check if token active
+        if up_list.count() == 1:
+            #update status
+            status = 1
+            #get user profile
+            up = up_list[0]
+            #get list of accepted applogees
+            ap_list = Apology.objects.filter(
+                sentFrom = up,
+                mutual = True
+            )
+            for apology in ap_list:
+                resp.append({
+                    'acceptedby':apology.sentTo.name
+                })
+        else:
+            #token invalid
+            status = 2
+    #append status to resp
+    resp.append({'status':status})
+    #return response
+    return HttpResponse(
+               simplejson.dumps(resp),
+               mimetype='application/javascript')
 
 
 
