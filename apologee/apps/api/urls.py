@@ -1,0 +1,7 @@
+from django.conf.urls import patterns, include, url
+from apps.api import views
+
+urlpatterns = patterns('',
+    url('test$',views.test),
+    url('signup$',views.signup),
+)

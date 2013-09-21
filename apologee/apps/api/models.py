@@ -1,15 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import User
+import string
+import random
 
 class UserProfile(models.Model):
     #class to hold user profile data
     user = models.ForeignKey(User, unique = True)
     name = models.CharField(max_length = 200)
+    token  = models.CharField(max_length = 100, default = 'blank')
+
+    def getToken(self):
+        chars = string.ascii_uppercase+string.digits+string.ascii_lowercase
+        tokenbase = ''.join(random.choice(chars) for x in range(25))
+        token = self.name + tokenbase
+        self.token = token
+        self.save()
+        return token
 
 
-class Apology(model.Model):
+class Apology(models.Model):
     #class to hold apologies
-    sentFrom = models.ForeignKey(UserProfile)
-    sentTo = models.ForeignKey(UserProfile)
+    sentFrom = models.ForeignKey(UserProfile, related_name = "sent_from")
+    sentTo = models.ForeignKey(UserProfile, related_name = "sent_to")
     text = models.CharField(max_length = 500)
-    mutual = models.BooleanFeild(default = False)
+    mutual = models.BooleanField(default = False)
