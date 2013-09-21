@@ -22,5 +22,11 @@ class Apology(models.Model):
     #class to hold apologies
     sentFrom = models.ForeignKey(UserProfile, related_name = "sent_from")
     sentTo = models.ForeignKey(UserProfile, related_name = "sent_to")
-    text = models.CharField(max_length = 500)
+    text = models.CharField(max_length = 500, default = 'blank')
     mutual = models.BooleanField(default = False)
+
+    def accept(self):
+        #applogy accepted
+        self.mutual = True
+        self.save()
+ 

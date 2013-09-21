@@ -1,6 +1,7 @@
 ##API routes
 
 ####/API/signup
+Signup a new user
 
 * consumes GET data for `username`,`password`,`email`
 * returns `{"status": 1}` if account successfully created
@@ -16,6 +17,7 @@ EXAMPLE:
 ---
 
 ####/API/login
+Login/authenticate user + obtain token
 
 * consumes GET data for `username`,`password`
 * returns `{"status": 1}` if authentication successfull
@@ -27,4 +29,17 @@ if status = 1 retuns `token`
 EXAMPLE:
 
 `[{"token": "DQNNj15xQFpuXSHl8HNFt5Rnc"}, {"status": 1}]`
+
+---
+
+####/API/sorry
+Submit an appology
+
+* consumes GET data for `token`,`sendto`
+* `sendto` is the name of the person appology is sent to
+
+* returns `{"status": 1}` if authentication successfull & appology sent
+* returns `{"status": 2}` if authentication fail
+* returns `{"status": 3}` if authentication successfull & appology sent & mutual
+* returns `{"status": 0}` unknown failure
 

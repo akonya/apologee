@@ -5,4 +5,5 @@ urlpatterns = patterns('',
     url('test$',views.test),
     url('signup$',views.signup),
     url('login$',views.login),
+    url('sorry',views.sorry),
 )
