@@ -26,5 +26,5 @@ if status = 1 retuns `token`
 
 EXAMPLE:
 
-`[{"token": "CzswGnCLM4yQi9E7zJcGpPfGq"}, {"status": 1}]`
+`[{"token": "DQNNj15xQFpuXSHl8HNFt5Rnc"}, {"status": 1}]`
 
