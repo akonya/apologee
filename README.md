@@ -35,12 +35,12 @@ EXAMPLE:
 ####/API/sorry
 Submit an appology
 
-* consumes GET data for `token`,`sendto`
+* consumes GET data for `token`,`sendto`,`message`
 * `sendto` is the name of the person appology is sent to
 * returns `{"status": 1}` if authentication successfull & appology sent
 * returns `{"status": 2}` if authentication fail
 * returns `{"status": 3}` if authentication successfull & appology sent & mutual
-* returns `{"status": 4}` if appology message is to negative
+* returns `{"status": 4}` if appology `message` has overly negative sentiment
 * returns `{"status": 0}` unknown failure
 
 ---

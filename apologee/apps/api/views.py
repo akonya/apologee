@@ -6,15 +6,6 @@ from django.utils import simplejson
 from apps.api.helpers import jsonp
 from libs.Alchemy import initAPIPrivateKey, getSentiment
 
-def test(request):
-    #initAPIPrivateKey("93bd111c6394f5a24dad62e1854eeb4dd2cde80d")
-    #text = request.GET['text']
-    #r = getSentiment(text)
-    return HttpResponse('score='+r['score'])
-
-def start(request):
-    #initAPIPrivateKey("93bd111c6394f5a24dad62e1854eeb4dd2cde80d")
-    return HttpResponse('alchamyAPI initiated')
 
 @jsonp
 def signup(request):
@@ -94,7 +85,7 @@ def sorry(request):
     if request.method == 'GET':
         token = request.GET['token']
         sentTo = request.GET['sendto']
-        text = request.GET['text']
+        text = request.GET['message']
         #check for sentiment
         r = getSentiment(text)
         #if not to negative
