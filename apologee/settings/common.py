@@ -263,3 +263,6 @@ COMPRESS_JS_FILTERS = [
     'compressor.filters.template.TemplateFilter',
 ]
 ########## END COMPRESSION CONFIGURATION
+
+#### Alchemy API settings
+PRIVATE_ALCHEMY_KEY="93bd111c6394f5a24dad62e1854eeb4dd2cde80d"

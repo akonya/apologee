@@ -3,8 +3,9 @@ from urllib import urlencode
 from urllib2 import urlopen
 from abc import ABCMeta,abstractmethod
 import json
+from django.conf import settings
 
-_alchemy_key = ''
+_alchemy_key = settings.PRIVATE_ALCHEMY_KEY
 
 class InvalidKey(Exception):
     def __init__(self):
