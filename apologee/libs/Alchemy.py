@@ -1,12 +1,8 @@
-import gevent
-from gevent import monkey
 import AlchemyAPI
 from urllib import urlencode
 from urllib2 import urlopen
 from abc import ABCMeta,abstractmethod
 import json
-
-gevent.monkey.patch_all()
 
 _alchemy_key = ''
 
@@ -36,13 +32,12 @@ def initAPIPrivateKey(key):
         global _alchemy_key
         _alchemy_key = key
 
-class AbstractAlchemyRequest(gevent.Greenlet, object):
+class AbstractAlchemyRequest(object):
     """ This abstract class indicates a basic Alchemy API.
     Usually an API has a corresponding endpoint."""
     __metaclass__ = ABCMeta
     _outputmode = 'json'
     def __init__(self, endpoint, params, data):
-        gevent.Greenlet.__init__(self)
         self._endpoint = endpoint
         self._params = urlencode(params)
         self._data = data
@@ -54,7 +49,7 @@ class AbstractAlchemyRequest(gevent.Greenlet, object):
     def setdata(self, data):
         self._data = data
 
-    def _run(self):
+    def run(self):
         url = self._endpoint + ('?' + self._params if self._params else '')
         result = urlopen(url, urlencode(self._data))
         self._result = result.read()
@@ -91,6 +86,5 @@ class TextSentimentRequest(AbstractAlchemyRequest):
 
 def getSentiment(text):
     req = TextSentimentRequest(text = text)
-    req.start()
-    req.join()
+    req.run()
     return req.result()
