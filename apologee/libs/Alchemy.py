@@ -80,7 +80,10 @@ class TextSentimentRequest(AbstractAlchemyRequest):
             if st != 'OK':
                 raise BadAPIRequest(r['statusInfo'])
             else:
-                return r['docSentiment']
+                res = r['docSentiment']
+                if res['type'].lower() == 'neutral':
+                    res['score'] = u'0.0'
+                return res
         except AttributeError:
             raise BadAPIResponse("The remote returned invalid data.")
 
