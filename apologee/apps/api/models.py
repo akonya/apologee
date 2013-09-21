@@ -9,6 +9,9 @@ class UserProfile(models.Model):
     name = models.CharField(max_length = 200)
     token  = models.CharField(max_length = 100, default = 'blank')
 
+    def __unicode__(self):
+        return self.name
+
     def getToken(self):
         chars = string.ascii_uppercase+string.digits+string.ascii_lowercase
         tokenbase = ''.join(random.choice(chars) for x in range(25))
@@ -24,6 +27,12 @@ class Apology(models.Model):
     sentTo = models.ForeignKey(UserProfile, related_name = "sent_to")
     text = models.CharField(max_length = 500, default = 'blank')
     mutual = models.BooleanField(default = False)
+
+    def __unicode__(self):
+        return "%s->%s" % (
+            self.sentFrom.name,
+            self.sentTo.name
+        )
 
     def accept(self):
         #applogy accepted
