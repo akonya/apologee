@@ -197,8 +197,6 @@ THIRD_PARTY_APPS = (
     # Static file management:
     'compressor',
 
-    # Asynchronous task queue:
-    'djcelery',
 )
 
 LOCAL_APPS = (
@@ -240,17 +238,6 @@ LOGGING = {
 }
 ########## END LOGGING CONFIGURATION
 
-
-########## CELERY CONFIGURATION
-# See: http://celery.readthedocs.org/en/latest/configuration.html#celery-task-result-expires
-CELERY_TASK_RESULT_EXPIRES = timedelta(minutes=30)
-
-# See: http://docs.celeryproject.org/en/master/configuration.html#std:setting-CELERY_CHORD_PROPAGATES
-CELERY_CHORD_PROPAGATES = True
-
-# See: http://celery.github.com/celery/django/
-setup_loader()
-########## END CELERY CONFIGURATION
 
 
 ########## WSGI CONFIGURATION
