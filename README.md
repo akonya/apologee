@@ -37,7 +37,6 @@ Submit an appology
 
 * consumes GET data for `token`,`sendto`
 * `sendto` is the name of the person appology is sent to
-
 * returns `{"status": 1}` if authentication successfull & appology sent
 * returns `{"status": 2}` if authentication fail
 * returns `{"status": 3}` if authentication successfull & appology sent & mutual
