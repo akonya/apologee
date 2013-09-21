@@ -4,9 +4,17 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.utils import simplejson
 from apps.api.helpers import jsonp
+from libs.Alchemy import initAPIPrivateKey, getSentiment
 
 def test(request):
-    return HttpResponse('works!')
+    #initAPIPrivateKey("93bd111c6394f5a24dad62e1854eeb4dd2cde80d")
+    #text = request.GET['text']
+    #r = getSentiment(text)
+    return HttpResponse('score='+r['score'])
+
+def start(request):
+    #initAPIPrivateKey("93bd111c6394f5a24dad62e1854eeb4dd2cde80d")
+    return HttpResponse('alchamyAPI initiated')
 
 @jsonp
 def signup(request):
@@ -86,33 +94,43 @@ def sorry(request):
     if request.method == 'GET':
         token = request.GET['token']
         sentTo = request.GET['sendto']
-        #get user profile corrisponding to token 
-        up_list1 = UserProfile.objects.filter(token = token)
-        #get user profile corrisponding to sendto
-        up_list2 = UserProfile.objects.filter(name = sentTo) 
-        #check to make sure token active
-        if up_list1.count() == 1 and up_list2.count() == 1:
-            #token valid
-            status = 1
-            up1 = up_list1[0]
-            up2 = up_list2[0]
-            if Apology.objects.filter(sentFrom = up1, sentTo = up2).count() == 0:
-                #if apology does not exist
-                #create apology
-                ap1 = Apology.objects.create(sentFrom = up1, sentTo = up2)
-                #check to see if appology pair exists
-                ap_list = Apology.objects.filter(sentFrom = up2, sentTo = up1)
-                if ap_list.count() != 0:
-                    #appology pair exists
-                    ap2 = ap_list[0]
-                    #accept applogies
-                    ap1.accept()
-                    ap2.accept()
-                    #update status
-                    status = 3
+        text = request.GET['text']
+        #check for sentiment
+        r = getSentiment(text)
+        #if not to negative
+        sentVal_s = r['score']
+        sentVal = float(sentVal_s)
+        if sentVal>-0.15:
+            #get user profile corrisponding to token 
+            up_list1 = UserProfile.objects.filter(token = token)
+            #get user profile corrisponding to sendto
+            up_list2 = UserProfile.objects.filter(name = sentTo) 
+            #check to make sure token active
+            if up_list1.count() == 1 and up_list2.count() == 1:
+                #token valid
+                status = 1
+                up1 = up_list1[0]
+                up2 = up_list2[0]
+                if Apology.objects.filter(sentFrom = up1, sentTo = up2, mutual = False).count() == 0:
+                    #if apology does not exist
+                    #create apology
+                    ap1 = Apology.objects.create(sentFrom = up1, sentTo = up2, text = text)
+                    #check to see if appology pair exists
+                    ap_list = Apology.objects.filter(sentFrom = up2, sentTo = up1, mutual = False )
+                    if ap_list.count() != 0:
+                        #appology pair exists
+                        ap2 = ap_list[0]
+                        #accept applogies
+                        ap1.accept()
+                        ap2.accept()
+                        #update status
+                        status = 3
+            else:
+                #token invalid
+                status = 2
         else:
-            #token invalid
-            status = 2
+            #bad sentiment
+            status = 4
     #append status to resp
     resp.append({'status':status})
     #return response
@@ -138,12 +156,13 @@ def accepted(request):
             up = up_list[0]
             #get list of accepted applogees
             ap_list = Apology.objects.filter(
-                sentFrom = up,
+                sentTo = up,
                 mutual = True
             )
             for apology in ap_list:
                 resp.append({
-                    'acceptedby':apology.sentTo.name
+                    'from':apology.sentFrom.name,
+                    'message':apology.text
                 })
         else:
             #token invalid

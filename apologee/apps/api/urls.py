@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     url('login$',views.login),
     url('sorry$',views.sorry),
     url('accepted$',views.accepted),
+    url('start$',views.start),
 )

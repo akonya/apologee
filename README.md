@@ -41,6 +41,7 @@ Submit an appology
 * returns `{"status": 1}` if authentication successfull & appology sent
 * returns `{"status": 2}` if authentication fail
 * returns `{"status": 3}` if authentication successfull & appology sent & mutual
+* returns `{"status": 4}` if appology message is to negative
 * returns `{"status": 0}` unknown failure
 
 ---
@@ -49,14 +50,20 @@ Submit an appology
 Get list of people who accepted appologies
 
 * consumes GET data for `token`
-* returns list of people who accepted appologies
+* returns list of accepted appologees
+
+Each apologee in list has:
+
+`message` --> appology message
+`from` --> who sent the apologee
+
 * returns `{"status": 1}` if authentication successfull
 * returns `{"status": 2}` if authentication fail
 * returns `{"status": 0}` unknown failure
 
 EXAMPLE:
 
-`[{"acceptedby": "obama"}, {"status": 1}]`
+`[{"message": "\"I love you Obama\"", "from": "putin"}, {"status": 1}]`
 
 ---
 
